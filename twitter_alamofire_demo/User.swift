@@ -16,12 +16,39 @@ class User {
     var dictionary: [String: Any]?
     
     var name: String
+    var screenName: String
+    var description: String
+    var followersCount: Int
+    var followingCount: Int
+    var profileImageUrl: URL?
+    var profileBackgroundUrl: URL?
     
     init(dictionary: [String: Any]) {
         
         self.dictionary = dictionary
+        
         name = dictionary["name"] as! String
-
+        screenName = dictionary["screen_name"] as! String
+        screenName = "@" + screenName
+        description = dictionary["description"] as! String
+        followersCount = dictionary["followers_count"] as! Int
+        followingCount = dictionary["friends_count"] as! Int
+        
+        let profileImageUrlString = dictionary["profile_image_url_https"] as? String
+        if let profileImageUrlString = profileImageUrlString {
+            profileImageUrl = URL(string: profileImageUrlString)
+        }
+        else {
+            profileImageUrl = URL(string: "")
+        }
+        
+        let profileBackgroundUrlString = dictionary["profile_background_image_url_https"] as? String
+        if let profileBackgroundUrlString = profileBackgroundUrlString {
+            profileBackgroundUrl = URL(string: profileBackgroundUrlString)
+        }
+        else {
+            profileBackgroundUrl = URL(string: "")
+        }
     }
     
     static var current: User? {
