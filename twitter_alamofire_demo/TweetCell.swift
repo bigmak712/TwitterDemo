@@ -47,6 +47,7 @@ class TweetCell: UITableViewCell {
             retweetImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onRetweet)))
             favoriteImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onFavorite)))
             
+            updateImages()
             updateCountLabels()
         }
     }
@@ -67,12 +68,50 @@ class TweetCell: UITableViewCell {
     }
     
     func onRetweet() {
+        if tweet.retweeted {
+            APIManager.shared.unretweet(tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error unretweeting tweet: \(error.localizedDescription)")
+                }
+                else if let tweet = tweet {
+                    print("Successfully unretweeted the following Tweet: \n\(tweet.text)")
+                }
+            })
+            
+            tweet.retweeted = false
+            tweet.retweetCount -= 1
+        }
+        else {
+            APIManager.shared.retweet(tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error retweeting tweet: \(error.localizedDescription)")
+                }
+                else if let tweet = tweet {
+                    print("Successfully retweeted the following Tweet: \n\(tweet.text)")
+                }
+            })
+            
+            tweet.retweeted = true
+            tweet.retweetCount += 1
+        }
         
+        updateImages()
+        updateCountLabels()
     }
     
     func onFavorite() {
         if tweet.favorited {
+            APIManager.shared.unfavorite(tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error unfavoriting tweet: \(error.localizedDescription)")
+                }
+                else if let tweet = tweet {
+                    print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
+                }
+            })
             
+            tweet.favorited = false
+            tweet.favoriteCount -= 1
         }
         else {
             APIManager.shared.favorite(tweet, completion: { (tweet: Tweet?, error: Error?) in
@@ -88,9 +127,25 @@ class TweetCell: UITableViewCell {
             tweet.favoriteCount += 1
         }
         
+        updateImages()
         updateCountLabels()
     }
     
+    func updateImages() {
+        if tweet.retweeted {
+            retweetImageView.image = UIImage(named: "retweet-icon-green")
+        }
+        else {
+            retweetImageView.image = UIImage(named: "retweet-icon")
+        }
+        
+        if tweet.favorited {
+            favoriteImageView.image = UIImage(named: "favor-icon-red")
+        }
+        else {
+            favoriteImageView.image = UIImage(named: "favor-icon")
+        }
+    }
     func updateCountLabels() {
         replyCountLabel.text = String(tweet.replyCount)
         retweetCountLabel.text = String(tweet.retweetCount)
