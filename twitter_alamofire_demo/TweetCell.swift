@@ -40,10 +40,14 @@ class TweetCell: UITableViewCell {
             usernameLabel.text = tweet.user.name
             screenameLabel.text = tweet.user.screenName
             timestampLabel.text = tweet.createdAtString
+            
             bodyLabel.text = tweet.text
-            replyCountLabel.text = String(tweet.replyCount)
-            retweetCountLabel.text = String(tweet.retweetCount)
-            favoriteCountLabel.text = String(tweet.favoriteCount)
+            
+            replyImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onReply)))
+            retweetImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onRetweet)))
+            favoriteImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onFavorite)))
+            
+            updateCountLabels()
         }
     }
     
@@ -58,4 +62,38 @@ class TweetCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func onReply() {
+        
+    }
+    
+    func onRetweet() {
+        
+    }
+    
+    func onFavorite() {
+        if tweet.favorited {
+            
+        }
+        else {
+            APIManager.shared.favorite(tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error favoriting tweet: \(error.localizedDescription)")
+                }
+                else if let tweet = tweet {
+                    print("Successfully favorited the following Tweet: \n\(tweet.text)")
+                }
+            })
+            
+            tweet.favorited = true
+            tweet.favoriteCount += 1
+        }
+        
+        updateCountLabels()
+    }
+    
+    func updateCountLabels() {
+        replyCountLabel.text = String(tweet.replyCount)
+        retweetCountLabel.text = String(tweet.retweetCount)
+        favoriteCountLabel.text = String(tweet.favoriteCount)
+    }
 }
