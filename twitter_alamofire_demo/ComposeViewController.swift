@@ -14,11 +14,22 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var tweetTextView: UITextView!
     
+    var photoUrl: URL?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tweetTextView.delegate = self
-        
         tweetButton.isEnabled = false
+        
+        tweetTextView.text = "What's happening?"
+        tweetTextView.textColor = UIColor.gray
+        
+        if let photoUrl = photoUrl {
+            profileImageView.af_setImage(withURL: photoUrl)
+        }
+        profileImageView.layer.masksToBounds = false
+        profileImageView.layer.cornerRadius = profileImageView.frame.height/2
+        profileImageView.clipsToBounds = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,8 +53,19 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         dismiss(animated: true, completion: nil)
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if tweetTextView.textColor == UIColor.gray {
+            tweetTextView.text = ""
+            tweetTextView.textColor = UIColor.black
+        }
+    }
     func textViewDidChange(_ textView: UITextView) {
-        tweetButton.isEnabled = true
+        if tweetTextView.text.isEmpty {
+            tweetButton.isEnabled = false
+        }
+        else {
+            tweetButton.isEnabled = true
+        }
     }
     
     /*

@@ -67,9 +67,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ctl-bI-Eag">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ctl-bI-Eag">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TweetCell" rowHeight="120" id="U1g-kw-izy" customClass="TweetCell" customModule="twitter_alamofire_demo" customModuleProvider="target">
@@ -161,7 +160,6 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="KAy-8i-tXR" firstAttribute="leading" secondItem="WXR-W1-jgX" secondAttribute="trailing" constant="2" id="0KI-Df-8Dn"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fn7-kN-fOb" secondAttribute="trailing" constant="16" id="22S-0T-QdT"/>
                                                 <constraint firstItem="ckw-il-Gvj" firstAttribute="leading" secondItem="jba-sl-RUP" secondAttribute="trailing" constant="8" id="4Iu-9e-PO8"/>
                                                 <constraint firstItem="KAy-8i-tXR" firstAttribute="centerY" secondItem="LHR-4w-Tww" secondAttribute="centerY" id="9fC-Ut-fRG"/>
                                                 <constraint firstItem="5iw-rw-s8z" firstAttribute="leading" secondItem="97u-7i-xhQ" secondAttribute="trailing" constant="2" id="AHa-5I-lRa"/>
@@ -186,6 +184,7 @@
                                                 <constraint firstItem="hmi-TQ-0ca" firstAttribute="top" secondItem="ckw-il-Gvj" secondAttribute="bottom" constant="2" id="mzk-10-J73"/>
                                                 <constraint firstItem="Lqg-o3-QI9" firstAttribute="top" secondItem="jba-sl-RUP" secondAttribute="top" id="p5h-eR-dYK"/>
                                                 <constraint firstAttribute="trailing" secondItem="hmi-TQ-0ca" secondAttribute="trailing" constant="16" id="wPR-rc-bWU"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fn7-kN-fOb" secondAttribute="trailing" constant="16" id="x9I-GK-1CZ"/>
                                                 <constraint firstItem="niE-Xk-0gF" firstAttribute="centerY" secondItem="LHR-4w-Tww" secondAttribute="centerY" id="zlz-TQ-SGf"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -208,6 +207,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="z6n-U4-hAr" firstAttribute="top" secondItem="Ctl-bI-Eag" secondAttribute="bottom" id="CFk-Kv-GzJ"/>
+                            <constraint firstItem="Ctl-bI-Eag" firstAttribute="top" secondItem="JNb-nQ-JaL" secondAttribute="top" id="E7y-Iq-UgD"/>
+                            <constraint firstAttribute="trailing" secondItem="Ctl-bI-Eag" secondAttribute="trailing" id="IdK-bC-Q0a"/>
+                            <constraint firstItem="Ctl-bI-Eag" firstAttribute="leading" secondItem="JNb-nQ-JaL" secondAttribute="leading" id="gcS-Q5-Mui"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home Timeline" id="9Zi-uW-GTS">
                         <rightBarButtonItems>
