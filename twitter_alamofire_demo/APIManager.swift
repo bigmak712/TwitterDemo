@@ -198,6 +198,24 @@ class APIManager: SessionManager {
     }
     
     // MARK: TODO: Compose Tweet
+    func composeTweet(with text: String, completion: @escaping (Tweet?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/statuses/update.json"
+        let url = URL(string: urlString)!
+        let parameters = ["status": text]
+        request(url, method: .post, parameters: parameters, encoding: URLEncoding.queryString)
+            .validate()
+            .responseJSON { (response) in
+                if response.result.isSuccess {
+                    let tweetDictionary = response.result.value as? [String: Any]
+                    let tweet = Tweet(dictionary: tweetDictionary!)
+                    completion(tweet, nil)
+                }
+                else {
+                    completion(nil, response.result.error)
+                }
+        }
+        
+    }
     
     // MARK: TODO: Get User Timeline
     
