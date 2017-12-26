@@ -40,6 +40,10 @@ class TweetDetailViewController: UIViewController {
             retweetCountLabel.text = String(tweet.retweetCount)
             likeCountLabel.text = String(tweet.favoriteCount)
         }
+        
+        replyImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onReply)))
+        retweetImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onRetweet)))
+        favoriteImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onFavorite)))
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,6 +51,42 @@ class TweetDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func onReply() {
+        
+    }
+    
+    func onRetweet() {
+        Tweet.retweet(tweet: tweet!)
+        updateImages()
+        updateCountLabels()
+    }
+    
+    func onFavorite() {
+        Tweet.favorite(tweet: tweet!)
+        updateImages()
+        updateCountLabels()
+    }
+    
+    func updateImages() {
+        if tweet!.retweeted {
+            retweetImageView.image = UIImage(named: "retweet-icon-green")
+        }
+        else {
+            retweetImageView.image = UIImage(named: "retweet-icon")
+        }
+        
+        if tweet!.favorited {
+            favoriteImageView.image = UIImage(named: "favor-icon-red")
+        }
+        else {
+            favoriteImageView.image = UIImage(named: "favor-icon")
+        }
+    }
+    
+    func updateCountLabels() {
+        retweetCountLabel.text = String(describing: tweet!.retweetCount)
+        likeCountLabel.text = String(describing: tweet!.favoriteCount)
+    }
 
     /*
     // MARK: - Navigation

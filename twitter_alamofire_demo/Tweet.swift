@@ -48,13 +48,62 @@ class Tweet {
         createdAtString = formatter.string(from: date)
     }
     
-    static func tweets(with array: [[String: Any]]) -> [Tweet] {
-        var tweets: [Tweet] = []
-        for tweetDictionary in array {
-            let tweet = Tweet(dictionary: tweetDictionary)
-            tweets.append(tweet)
+    static func retweet(tweet: Tweet) {
+        if tweet.retweeted {
+            APIManager.shared.unretweet(tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error unretweeting tweet: \(error.localizedDescription)")
+                }
+                else if let tweet = tweet {
+                    print("Successfully unretweeted the following Tweet: \n\(tweet.text)")
+                }
+            })
+            
+            tweet.retweeted = false
+            tweet.retweetCount -= 1
         }
-        return tweets
+        else {
+            APIManager.shared.retweet(tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error retweeting tweet: \(error.localizedDescription)")
+                }
+                else if let tweet = tweet {
+                    print("Successfully retweeted the following Tweet: \n\(tweet.text)")
+                }
+            })
+            
+            tweet.retweeted = true
+            tweet.retweetCount += 1
+        }
+    }
+    
+    static func favorite(tweet: Tweet) {
+        if tweet.favorited {
+            APIManager.shared.unfavorite(tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error unfavoriting tweet: \(error.localizedDescription)")
+                }
+                else if let tweet = tweet {
+                    print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
+                }
+            })
+            
+            tweet.favorited = false
+            tweet.favoriteCount -= 1
+        }
+        else {
+            APIManager.shared.favorite(tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error favoriting tweet: \(error.localizedDescription)")
+                }
+                else if let tweet = tweet {
+                    print("Successfully favorited the following Tweet: \n\(tweet.text)")
+                }
+            })
+            
+            tweet.favorited = true
+            tweet.favoriteCount += 1
+        }
     }
 }
 
