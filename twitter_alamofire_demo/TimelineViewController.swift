@@ -41,9 +41,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
-        
         cell.tweet = tweets[indexPath.row]
-        
         return cell
     }
     
@@ -77,9 +75,19 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let profileUrl = User.current?.profileImageUrl
-        let composeVC = segue.destination as! ComposeViewController
-        composeVC.photoUrl = profileUrl
+        if segue.identifier == "composeSegue" {
+            let profileUrl = User.current?.profileImageUrl
+            let composeVC = segue.destination as! ComposeViewController
+            composeVC.photoUrl = profileUrl
+        }
+        else if segue.identifier == "detailSegue" {
+            let cell = sender as! UITableViewCell
+            if let indexPath = tableView.indexPath(for: cell) {
+                let tweet = tweets[indexPath.row]
+                let detailVC = segue.destination as! TweetDetailViewController
+                detailVC.tweet = tweet
+            }
+        }
      }
     
     

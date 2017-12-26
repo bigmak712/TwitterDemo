@@ -24,7 +24,6 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var favoriteImageView: UIImageView!
     @IBOutlet weak var messageImageView: UIImageView!
     
-    @IBOutlet weak var replyCountLabel: UILabel!
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
     
@@ -147,7 +146,6 @@ class TweetCell: UITableViewCell {
         }
     }
     func updateCountLabels() {
-        replyCountLabel.text = String(tweet.replyCount)
         retweetCountLabel.text = String(tweet.retweetCount)
         favoriteCountLabel.text = String(tweet.favoriteCount)
     }

@@ -20,7 +20,8 @@ class Tweet {
     var user: User // Contains name, screenname, etc. of tweet author
     var createdAtString: String // Display date
     
-    var replyCount: Int!
+    // reply_count field is only available on enterprise APIs 
+    // var replyCount: Int
     
     // MARK: - Create initializer with dictionary
     init(dictionary: [String: Any]) {
@@ -30,8 +31,6 @@ class Tweet {
         favorited = dictionary["favorited"] as! Bool
         retweetCount = dictionary["retweet_count"] as! Int
         retweeted = dictionary["retweeted"] as! Bool
-        
-        replyCount = dictionary["reply_count"] as? Int ?? 0
         
         let user = dictionary["user"] as! [String: Any]
         self.user = User(dictionary: user)
