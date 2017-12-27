@@ -80,9 +80,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "composeSegue" {
-            let profileUrl = User.current?.profileImageUrl
-            let composeVC = segue.destination as! ComposeViewController
-            composeVC.photoUrl = profileUrl
+            
         }
         else if segue.identifier == "detailSegue" {
             let cell = sender as! UITableViewCell
@@ -93,18 +91,9 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         else if segue.identifier == "profileSegue" {
-            //let cell = sender as! UITableViewCell
-            //let tap = sender as! UITapGestureRecognizer
-            //let location = tap.location(in: tableView)
             let user = sender as! User
             let profileVC = segue.destination as! ProfileViewController
             profileVC.user = user
-            /*
-            if let indexPath = tableView.indexPathForRow(at: location) {
-                let tweet = tweets[indexPath.row]
-                let profileVC = segue.destination as! ProfileViewController
-                profileVC.user = tweet.user
-            }*/
         }
      }
     

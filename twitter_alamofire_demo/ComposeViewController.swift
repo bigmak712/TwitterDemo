@@ -24,8 +24,9 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         tweetTextView.text = "What's happening?"
         tweetTextView.textColor = UIColor.gray
         
-        if let photoUrl = photoUrl {
-            profileImageView.af_setImage(withURL: photoUrl)
+        let profileUrl = User.current?.profileImageUrl
+        if let profileUrl = profileUrl {
+            profileImageView.af_setImage(withURL: profileUrl)
         }
         profileImageView.layer.masksToBounds = false
         profileImageView.layer.cornerRadius = profileImageView.frame.height/2

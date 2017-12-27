@@ -8,9 +8,10 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var composeButton: UIButton!
     @IBOutlet weak var bannerImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -21,6 +22,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var tweetsTableView: UITableView!
     
     var user: User?
+    var tweets: [Tweet] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +42,11 @@ class ProfileViewController: UIViewController {
         profileImageView.clipsToBounds = true
         profileImageView.layer.borderWidth = 5
         profileImageView.layer.borderColor = UIColor.white.cgColor
+        
+        tweetsTableView.delegate = self
+        tweetsTableView.dataSource = self
+        
+        fetchUserTimeline()
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,6 +59,27 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func onComposeButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "composeSegue", sender: self)
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tweets.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
+        cell.tweet = tweets[indexPath.row]
+        return cell
+    }
+    
+    func fetchUserTimeline() {
+        APIManager.shared.getUserTimeline(user!.name, user!.screenName) { (tweets, error) in
+            if let tweets = tweets {
+                self.tweets = tweets
+                self.tweetsTableView.reloadData()
+            } else if let error = error {
+                print("Error getting user timeline: " + error.localizedDescription)
+            }
+        }
     }
     
     /*
