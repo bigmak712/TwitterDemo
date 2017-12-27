@@ -9,6 +9,10 @@
 import UIKit
 import AlamofireImage
 
+protocol TweetCellDelegate: class {
+    func tweetCell(_ tweetCell: TweetCell, didTap user: User)
+}
+
 class TweetCell: UITableViewCell {
     
     @IBOutlet weak var profileImageView: UIImageView!
@@ -27,6 +31,8 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
     
+    weak var delegate: TweetCellDelegate?
+    
     var tweet: Tweet! {
         didSet {
             if let photoUrl = tweet.user.profileImageUrl {
@@ -35,7 +41,7 @@ class TweetCell: UITableViewCell {
             profileImageView.layer.masksToBounds = false
             profileImageView.layer.cornerRadius = profileImageView.frame.height/2
             profileImageView.clipsToBounds = true
-            
+                        
             usernameLabel.text = tweet.user.name
             screenameLabel.text = tweet.user.screenName
             timestampLabel.text = tweet.createdAtString
@@ -53,13 +59,20 @@ class TweetCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        let profileTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTapUserProfile(_:)))
+        profileImageView.addGestureRecognizer(profileTapGestureRecognizer)
+        profileImageView.isUserInteractionEnabled = true
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
+    }
+    
+    func didTapUserProfile(_ sender: UITapGestureRecognizer) {
+        delegate?.tweetCell(self, didTap: tweet.user)
     }
     
     func onReply() {

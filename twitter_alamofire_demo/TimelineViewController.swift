@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetCellDelegate {
     
     let refreshControl = UIRefreshControl()
     var tweets: [Tweet] = []
@@ -35,6 +35,11 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         fetchHomeTimeline()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
     }
@@ -42,6 +47,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
         cell.tweet = tweets[indexPath.row]
+        cell.delegate = self
         return cell
     }
     
@@ -49,11 +55,9 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func tweetCell(_ tweetCell: TweetCell, didTap user: User) {
+        performSegue(withIdentifier: "profileSegue", sender: user)
     }
-    
     
     @IBAction func didTapLogout(_ sender: Any) {
         APIManager.shared.logout()
@@ -87,6 +91,20 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                 let detailVC = segue.destination as! TweetDetailViewController
                 detailVC.tweet = tweet
             }
+        }
+        else if segue.identifier == "profileSegue" {
+            //let cell = sender as! UITableViewCell
+            //let tap = sender as! UITapGestureRecognizer
+            //let location = tap.location(in: tableView)
+            let user = sender as! User
+            let profileVC = segue.destination as! ProfileViewController
+            profileVC.user = user
+            /*
+            if let indexPath = tableView.indexPathForRow(at: location) {
+                let tweet = tweets[indexPath.row]
+                let profileVC = segue.destination as! ProfileViewController
+                profileVC.user = tweet.user
+            }*/
         }
      }
     

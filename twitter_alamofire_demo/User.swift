@@ -22,11 +22,12 @@ class User {
     var followingCount: Int
     var profileImageUrl: URL?
     var profileBackgroundUrl: URL?
+    var profileBannerUrl: URL?
     
     init(dictionary: [String: Any]) {
         
         self.dictionary = dictionary
-        
+        print(dictionary)
         name = dictionary["name"] as! String
         screenName = dictionary["screen_name"] as! String
         screenName = "@" + screenName
@@ -48,6 +49,14 @@ class User {
         }
         else {
             profileBackgroundUrl = URL(string: "")
+        }
+        
+        let profileBannerUrlString = dictionary["profile_banner_url"] as? String
+        if let profileBannerUrlString = profileBannerUrlString {
+            profileBannerUrl = URL(string: profileBannerUrlString)
+        }
+        else {
+            profileBannerUrl = URL(string: "")
         }
     }
     
