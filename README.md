@@ -2,7 +2,7 @@
 
 **TwitterDemo** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
-Time spent: **10** hours spent in total
+Time spent: **25** hours spent in total
 
 ## User Stories
 
@@ -25,7 +25,7 @@ The following **optional** features are implemented:
 - [ ] User can view their profile in a *profile tab*
    - Contains the user header view: picture and tagline
    - Contains a section with the users basic stats: # tweets, # following, # followers
-   - [ ] Profile view should include that user's timeline
+   - [x] Profile view should include that user's timeline
 - [ ] User should display the relative timestamp for each tweet "8m", "7h"
 - [x] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count. Refer to [[this guide|unretweeting]] for help on implementing unretweeting.
 - [ ] Links in tweets are clickable.
@@ -54,7 +54,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://i.imgur.com/9d10iTj.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/ErPUCUB.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
