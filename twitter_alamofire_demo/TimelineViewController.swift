@@ -26,7 +26,6 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         
         refreshControl.addTarget(self, action: #selector(fetchHomeTimeline), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,11 +65,14 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     func fetchHomeTimeline() {
         APIManager.shared.getHomeTimeLine { (tweets, error) in
             if let tweets = tweets {
+                
                 self.tweets = tweets
                 self.tableView.reloadData()
+                
             } else if let error = error {
                 print("Error getting home timeline: " + error.localizedDescription)
             }
+            
             self.refreshControl.endRefreshing()
         }
     }
